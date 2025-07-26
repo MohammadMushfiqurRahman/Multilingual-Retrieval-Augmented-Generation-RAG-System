@@ -19,7 +19,45 @@ The RAG system is designed with the following core functionalities:
 * **Generation Module:** Generates coherent and contextually relevant answers using a Question Answering (QA) language model.
 
 ## Project Structure and Workflow
+## System Architecture (Flowchart)
 
+Here's a visual representation of the RAG system's architecture and data flow:
+
+```mermaid
+flowchart TD
+    subgraph "Document Processing"
+        A[Bengali PDF Document] -->|PyMuPDF + OCR| B[Raw Text Extraction]
+        B --> C[Text Cleaning & Preprocessing]
+        C --> D[Document Chunking]
+        D --> E[Text Chunks]
+    end
+
+    subgraph "Vectorization & Storage"
+        E -->|SentenceTransformer| F[Vector Embeddings]
+        F --> G[ChromaDB Vector Database]
+    end
+
+    subgraph "Query Processing"
+        H[User Query] -->|English or Bengali| I[Query Embedding]
+        I --> J[Similarity Search]
+        G --> J
+        J --> K[Retrieved Relevant Chunks]
+    end
+
+    subgraph "Answer Generation"
+        K --> L[Context Formation]
+        H --> L
+        L -->|XLM-RoBERTa QA Model| M[Generated Answer]
+    end
+
+    subgraph "Future: Short-Term Memory"
+        N[Previous Conversations] -.->|Not Implemented| O[Conversation Context]
+        O -.->|Would Enhance| I
+        O -.->|Would Enhance| L
+    end
+
+    M --> P[Final Response to User]
+```
 The RAG pipeline follows these sequential steps:
 
 1.  **Text Extraction:** Extracts raw text from the PDF document, attempting OCR for image-based text if direct extraction fails.
