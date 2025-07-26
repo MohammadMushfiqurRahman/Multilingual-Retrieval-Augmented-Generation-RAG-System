@@ -50,10 +50,10 @@ flowchart TD
         L -->|XLM-RoBERTa QA Model| M[Generated Answer]
     end
 
-    subgraph "Future: Short-Term Memory"
-        N[Previous Conversations] -.->|Not Implemented| O[Conversation Context]
-        O -.->|Would Enhance| I
-        O -.->|Would Enhance| L
+    subgraph "Short-Term Memory"
+        N[Previous Conversations] -.-> O[Conversation Context]
+        O -.-> I
+        O -.-> L
     end
 
     M --> P[Final Response to User]
